@@ -10,6 +10,12 @@ trait <- args[5]
 
 .libPaths("/gpfs/fs001/cbica/home/wenju/R/x86_64-pc-linux-gnu-library/4.2.2")
 
+coffee_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/coffee_data_encoded.tsv"
+bag_file="/Users/hao/cubic-home/Reproducibile_paper/SleepAging/data/MomoBAG.tsv"
+cov_file="/Users/hao/cubic-home/Reproducibile_paper/PRS_UKBB/prediction/data/UKBB_fullsample_covariate.csv"
+output_dir="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/GAM/BAG/"
+trait = 'coffee_intake_f1498_0_0'
+
 library(mgcv)
 system.file(package = "mgcv")
 packageVersion("mgcv")
@@ -17,7 +23,6 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(tidyr)
-
 
 ## Load and merge data (commented out if already loaded in session)
 coffee <- read.csv(coffee_file, sep='\t')
@@ -247,8 +252,8 @@ fit_and_test_effects <- function(outcome) {
       BAG_predict_lower = lower,
       BAG_predict_upper = upper
     )
-  write.table(coffeechart_data,
-              paste0(output_dir, "/coffeechart_", trait, "_data_", outcome, ".tsv"),
+  write.table(coffeechart_data, 
+              paste0(output_dir, "/coffeechart_", trait, "_data_", outcome, ".tsv"), 
               sep = "\t", row.names = FALSE)
   
   write.table(stats, 
@@ -261,7 +266,17 @@ fit_and_test_effects <- function(outcome) {
   return(list(plot = p, stats = stats))
 }
 
-# Run the function
+# Run
 all_results <- lapply(BAG_list, fit_and_test_effects)
 # Assign names only for those actually run
 names(all_results) <- BAG_list
+
+## plot
+plot_list <- lapply(all_results, function(x) x$plot)
+combined_plot <- wrap_plots(plot_list, ncol = 6)
+
+# Export
+stats_table <- do.call(rbind, lapply(all_results, function(x) x$stats))
+write.table(stats_table, 
+            paste0(output_dir, "/BAG_stats_GAM_CI_", trait, ".tsv"),
+            sep = "\t", row.names = FALSE)

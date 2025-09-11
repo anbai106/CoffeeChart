@@ -8,7 +8,7 @@
 #SBATCH --error=/cbica/home/wenju/output/GAM_%A_%a.err
 
 
-trait_array=( coffee_intake_f1498_0_0 tea_intake_f1488_0_0)
+trait_array=( coffee_intake_f1498_0_0 tea_intake_f1488_0_0 )
 trait=${trait_array[$SLURM_ARRAY_TASK_ID]}
 
 coffee_file=/cbica/home/wenju/Reproducibile_paper/CoffeeChart/data/coffee_data_encoded.tsv

@@ -12,9 +12,12 @@ df = df[['eid', 'tea_intake_f1488_0_0',
 df = df[~df['tea_intake_f1488_0_0'].isin([-1, -3, -10])]
 df = df[~df['coffee_intake_f1498_0_0'].isin([-1, -3, -10])]
 
-### Let's remove the outliers
-df.loc[df["coffee_intake_f1498_0_0"] > 15, "coffee_intake_f1498_0_0"] = np.nan
-df.loc[df["tea_intake_f1488_0_0"] > 25, "tea_intake_f1488_0_0"] = np.nan
+# Compute 99th percentile thresholds
+coffee_thresh = df["coffee_intake_f1498_0_0"].quantile(0.99)
+tea_thresh = df["tea_intake_f1488_0_0"].quantile(0.99)
+# Replace values above thresholds with NaN
+df.loc[df["coffee_intake_f1498_0_0"] > coffee_thresh, "coffee_intake_f1498_0_0"] = np.nan
+df.loc[df["tea_intake_f1488_0_0"] > tea_thresh, "tea_intake_f1488_0_0"] = np.nan
 
 ### Coffee
 counts = df['coffee_intake_f1498_0_0'].value_counts().sort_index()
