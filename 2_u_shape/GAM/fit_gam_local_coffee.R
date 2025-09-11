@@ -57,7 +57,7 @@ covariates <- c("age_when_attended_assessment_centre_f21003_0_0", "diastolic_blo
                 'genetic_principal_components_f22009_0_31', 'genetic_principal_components_f22009_0_32', 'genetic_principal_components_f22009_0_33',
                 'genetic_principal_components_f22009_0_34', 'genetic_principal_components_f22009_0_35', 'genetic_principal_components_f22009_0_36',
                 'genetic_principal_components_f22009_0_37', 'genetic_principal_components_f22009_0_38', 'genetic_principal_components_f22009_0_39',
-                'genetic_principal_components_f22009_0_40', "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0")
+                'genetic_principal_components_f22009_0_40', "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0", "smoking_status_f20116_0_0")
 
 # Function to test multiple families and return the best model
 fit_and_test_effects <- function(outcome) {
