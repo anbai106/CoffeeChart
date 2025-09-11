@@ -28,10 +28,7 @@ library(tidyr)
 teat <- read.csv(teat_file, sep='\t')
 bag <- read.delim(bag_file, header = TRUE, na.strings = c("NA", "", ".", "-9999"))
 names(bag)[names(bag) == "Brain_PhenoBAG"] <- "Brain_MRIBAG"
-covs <- read.csv(cov_file)# Columns to remove
-cols_to_remove <- c("tea_intake_f1488_0_0", "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0")
-# Remove these columns if they exist
-covs <- covs %>% select(-any_of(cols_to_remove))
+covs <- read.csv(cov_file)
 names(covs)[names(covs) == "eid"] <- "participant_id"
 
 # Full join all three datasets by participant_id
@@ -60,7 +57,7 @@ covariates <- c("age_when_attended_assessment_centre_f21003_0_0", "diastolic_blo
                 'genetic_principal_components_f22009_0_31', 'genetic_principal_components_f22009_0_32', 'genetic_principal_components_f22009_0_33',
                 'genetic_principal_components_f22009_0_34', 'genetic_principal_components_f22009_0_35', 'genetic_principal_components_f22009_0_36',
                 'genetic_principal_components_f22009_0_37', 'genetic_principal_components_f22009_0_38', 'genetic_principal_components_f22009_0_39',
-                'genetic_principal_components_f22009_0_40')
+                'genetic_principal_components_f22009_0_40', "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0")
 
 # Function to test multiple families and return the best model
 fit_and_test_effects <- function(outcome) {
@@ -252,16 +249,16 @@ fit_and_test_effects <- function(outcome) {
       BAG_predict_lower = lower,
       BAG_predict_upper = upper
     )
-  write.table(teatchart_data,
-              paste0(output_dir, "/teatchart_", trait, "_data_", outcome, ".tsv"),
-              sep = "\t", row.names = FALSE)
-  
-  write.table(stats, 
-              paste0(output_dir, "/teatchart_", trait, "_stats_", outcome, ".tsv"),
-              sep = "\t", row.names = FALSE)
-  
-  plot_file <- file.path(output_dir, paste0("teatchart_", trait, "_", outcome, "_plot.rds"))
-  saveRDS(p, file = plot_file)
+  # write.table(teatchart_data,
+  #             paste0(output_dir, "/teatchart_", trait, "_data_", outcome, ".tsv"),
+  #             sep = "\t", row.names = FALSE)
+  # 
+  # write.table(stats, 
+  #             paste0(output_dir, "/teatchart_", trait, "_stats_", outcome, ".tsv"),
+  #             sep = "\t", row.names = FALSE)
+  # 
+  # plot_file <- file.path(output_dir, paste0("teatchart_", trait, "_", outcome, "_plot.rds"))
+  # saveRDS(p, file = plot_file)
   
   return(list(plot = p, stats = stats))
 }
