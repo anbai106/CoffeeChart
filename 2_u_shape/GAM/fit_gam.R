@@ -2,7 +2,7 @@
 
 args = commandArgs(trailingOnly=TRUE)
 
-coffee_file <- args[1]
+dietary_file <- args[1]
 bag_file <- args[2]
 cov_file <- args[3]
 output_dir <- args[4]
@@ -18,18 +18,24 @@ library(ggplot2)
 library(patchwork)
 library(tidyr)
 
+diagnosis_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/icd_disease_diagnosis.tsv"
+add_cov_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/additional_cov.tsv"
 
 ## Load and merge data (commented out if already loaded in session)
-coffee <- read.csv(coffee_file, sep='\t')
+dietary <- read.csv(dietary_file, sep='\t')
 bag <- read.delim(bag_file, header = TRUE, na.strings = c("NA", "", ".", "-9999"))
 names(bag)[names(bag) == "Brain_PhenoBAG"] <- "Brain_MRIBAG"
 covs <- read.csv(cov_file)
 names(covs)[names(covs) == "eid"] <- "participant_id"
+diagnosis <- read.csv(diagnosis_file, sep='\t')
+add_cov <- read.csv(add_cov_file, sep='\t')
 
 # Full join all three datasets by participant_id
-df <- coffee %>%
+df <- dietary %>%
   full_join(bag, by = "participant_id") %>%
-  full_join(covs, by = "participant_id")
+  full_join(covs, by = "participant_id") %>%
+  full_join(add_cov, by = "participant_id") %>%
+  full_join(diagnosis, by = "participant_id")
 
 BAG_list <- c('Reproductive_female_ProtBAG', 'Pulmonary_ProtBAG', 'Heart_ProtBAG',
               'Brain_ProtBAG', 'Eye_ProtBAG', 'Hepatic_ProtBAG', 'Renal_ProtBAG',
@@ -52,7 +58,7 @@ covariates <- c("age_when_attended_assessment_centre_f21003_0_0", "diastolic_blo
                 'genetic_principal_components_f22009_0_31', 'genetic_principal_components_f22009_0_32', 'genetic_principal_components_f22009_0_33',
                 'genetic_principal_components_f22009_0_34', 'genetic_principal_components_f22009_0_35', 'genetic_principal_components_f22009_0_36',
                 'genetic_principal_components_f22009_0_37', 'genetic_principal_components_f22009_0_38', 'genetic_principal_components_f22009_0_39',
-                'genetic_principal_components_f22009_0_40', "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0", "smoking_status_f20116_0_0")
+                'genetic_principal_components_f22009_0_40', "standing_height_f50_0_0", "waist_circumference_f48_0_0", "body_mass_index_bmi_f23104_0_0", "smoking_status_f20116_0_0", 'average_total_household_income_before_tax_f738_0_0')
 
 # Function to test multiple families and return the best model
 fit_and_test_effects <- function(outcome) {
@@ -128,7 +134,7 @@ fit_and_test_effects <- function(outcome) {
   main_smooth_name <- paste0("s(", trait, ")")
   interaction_smooth_name <- paste0("s(", trait, "):sexmale")
   # Then access the summary tables using those full strings
-  main_coffee <- sum_gam$s.table[main_smooth_name, ]
+  main_dietary <- sum_gam$s.table[main_smooth_name, ]
   print(rownames(sum_gam$p.table))
   sex_diff <- sum_gam$p.table["sexmale", ]
   print(rownames(sum_gam$s.table))
@@ -165,8 +171,8 @@ fit_and_test_effects <- function(outcome) {
       upper = fit + 1.96 * pred$se.fit
     )
   
-  # Only show optimal lines if main coffee p-value is significant
-  add_optimal_lines <- main_coffee[["p-value"]] < 0.05 / 23
+  # Only show optimal lines if main dietary p-value is significant
+  add_optimal_lines <- main_dietary[["p-value"]] < 0.05 / 23 / 19
   
   # Filter optimals only if significant
   optimals_filtered <- if (add_optimal_lines) optimals else optimals[0, ]
@@ -227,8 +233,8 @@ fit_and_test_effects <- function(outcome) {
     Outcome = outcome,
     Family = best_family,
     Optimal_k = best_k,
-    coffee_edf = safe_extract(main_coffee, c("edf")),
-    coffee_pvalue = safe_extract(main_coffee, c("p-value")),
+    dietary_edf = safe_extract(main_dietary, c("edf")),
+    dietary_pvalue = safe_extract(main_dietary, c("p-value")),
     Sex_coef = safe_extract(sex_diff, c("Estimate")),
     Sex_pvalue = coalesce(safe_extract(sex_diff, "Pr(>|z|)"), safe_extract(sex_diff, "Pr(>|t|)")),
     Sex_interaction_pvalue = safe_extract(sex_interaction_term, c("p-value")),
@@ -236,23 +242,23 @@ fit_and_test_effects <- function(outcome) {
     Male_optimal = if ("male" %in% optimals$sex) optimals$trait[optimals$sex == "male"] else NA
   )
   
-  ### select column for coffee Chart
-  coffeechart_data <- ci_data %>%
+  ### select column for dietary Chart
+  dietarychart_data <- ci_data %>%
     select(trait, sex, fit, lower, upper) %>%
     rename(
       BAG_predict = fit,
       BAG_predict_lower = lower,
       BAG_predict_upper = upper
     )
-  write.table(coffeechart_data,
-              paste0(output_dir, "/coffeechart_", trait, "_data_", outcome, ".tsv"),
+  write.table(dietarychart_data,
+              paste0(output_dir, "/dietarychart_", trait, "_data_", outcome, ".tsv"),
               sep = "\t", row.names = FALSE)
   
   write.table(stats, 
-              paste0(output_dir, "/coffeechart_", trait, "_stats_", outcome, ".tsv"), 
+              paste0(output_dir, "/dietarychart_", trait, "_stats_", outcome, ".tsv"),
               sep = "\t", row.names = FALSE)
   
-  plot_file <- file.path(output_dir, paste0("coffeechart_", trait, "_", outcome, "_plot.rds"))
+  plot_file <- file.path(output_dir, paste0("dietarychart_", trait, "_", outcome, "_plot.rds"))
   saveRDS(p, file = plot_file)
   
   return(list(plot = p, stats = stats))

@@ -19,4 +19,4 @@ for (i in 1:length(sel_c)) {
 ukbb_all <- ukbb_all.orig %>%
   dplyr::select(sel_Var$vars)
 
-write.csv(ukbb_all, "/cbica/home/wenju/Reproducibile_paper/CoffeeChart/data/coffee_data.csv", row.names = FALSE)
+write.csv(ukbb_all, "/cbica/home/wenju/Reproducibile_paper/CoffeeChart/data/diet_data.csv", row.names = FALSE)
