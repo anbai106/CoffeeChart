@@ -18,8 +18,8 @@ library(ggplot2)
 library(patchwork)
 library(tidyr)
 
-diagnosis_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/icd_disease_diagnosis.tsv"
-add_cov_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/additional_cov.tsv"
+diagnosis_file="/cbica/home/wenju/Reproducibile_paper/CoffeeChart/data/icd_disease_diagnosis.tsv"
+add_cov_file="/cbica/home/wenju/Reproducibile_paper/CoffeeChart/data/additional_cov.tsv"
 
 ## Load and merge data (commented out if already loaded in session)
 dietary <- read.csv(dietary_file, sep='\t')
