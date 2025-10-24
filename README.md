@@ -1,2 +1,2 @@
-# CoffeeChart
-CoffeeChart
+# LifeStyleChart
+LifeStyleChart
