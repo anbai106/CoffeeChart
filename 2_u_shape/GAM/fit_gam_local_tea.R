@@ -8,7 +8,7 @@ diagnosis_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/icd_d
 add_cov_file="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/data/additional_cov.tsv"
 output_dir="/Users/hao/cubic-home/Reproducibile_paper/CoffeeChart/GAM/BAG/"
 sleep_file <- "/Users/hao/cubic-home/Reproducibile_paper/SleepAging/data/UKBB_fullsample_sleep_variables.csv"
-trait = 'coffee_intake_f1498_0_0'
+trait = 'tea_intake_f1488_0_0'
 
 library(mgcv)
 system.file(package = "mgcv")
@@ -185,12 +185,12 @@ fit_and_test_effects <- function(outcome) {
   add_optimal_lines <- main_dietary[["p-value"]] < 0.05 / 23
   optimals_filtered <- if (add_optimal_lines) optimals else optimals[0, ]
   
-  df_model$coffee_intake_int <- factor(df_model$coffee_intake_f1498_0_0)
+  df_model$tea_intake_int <- factor(df_model$tea_intake_f1488_0_0)
   
-  p1 <- ggplot(df_model, aes(x = coffee_intake_int, y = !!sym(outcome), fill = sex)) +
+  p1 <- ggplot(df_model, aes(x = tea_intake_int, y = !!sym(outcome), fill = sex)) +
     geom_boxplot(position = position_dodge(width = 0.8), outlier.size = 0.5) +
     scale_fill_manual(values = c(female = "#EB5F2C", male = "#0072B5")) +
-    labs(title = paste(outcome), x = "Coffee intake", y = "BAG") +
+    labs(title = paste(outcome), x = "Tea intake", y = "BAG") +
     theme_minimal() +
     theme(legend.position = "none",
           axis.text = element_text(color = "black"))
@@ -265,5 +265,5 @@ combined_plot <- wrap_plots(plot_list, ncol = 6)
 # Export
 stats_table <- do.call(rbind, lapply(all_results, function(x) x$stats))
 write.table(stats_table, 
-            paste0(output_dir, "/BAG_coffee_stats_GAM_CI_", trait, ".tsv"),
+            paste0(output_dir, "/BAG_tea_stats_GAM_CI_", trait, ".tsv"),
             sep = "\t", row.names = FALSE)
