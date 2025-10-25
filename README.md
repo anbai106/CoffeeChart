@@ -1,2 +1,2 @@
-# LifeStyleChart
-LifeStyleChart
+# LifestyleChart
+LifestyleChart

@@ -19,4 +19,4 @@ df_icd_cn['diagnosis'] = 0
 
 df = pd.concat([df_icd_cn, df_icd_pt], ignore_index=True)
 
-df.to_csv('/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/icd_disease_diagnosis.tsv', index=False, sep='\t')
+df.to_csv('/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/icd_disease_diagnosis.tsv', index=False, sep='\t')

@@ -1,12 +1,12 @@
 #!/usr/bin/env Rscript
 .libPaths("/gpfs/fs001/cbica/home/wenju/R/x86_64-pc-linux-gnu-library/4.2.2")
 
-dietary_file="/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/dietary_data_encoded.tsv"
+dietary_file="/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/dietary_data_encoded.tsv"
 bag_file="/Users/hao/cubic-home/Reproducibile_paper/SleepAging/data/MomoBAG.tsv"
 cov_file="/Users/hao/cubic-home/Reproducibile_paper/PRS_UKBB/prediction/data/UKBB_fullsample_covariate.csv"
-diagnosis_file="/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/icd_disease_diagnosis.tsv"
-add_cov_file="/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/additional_cov.tsv"
-output_dir="/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/GAM/BAG/"
+diagnosis_file="/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/icd_disease_diagnosis.tsv"
+add_cov_file="/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/additional_cov.tsv"
+output_dir="/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/GAM/BAG/"
 sleep_file <- "/Users/hao/cubic-home/Reproducibile_paper/SleepAging/data/UKBB_fullsample_sleep_variables.csv"
 trait = 'coffee_intake_f1498_0_0'
 

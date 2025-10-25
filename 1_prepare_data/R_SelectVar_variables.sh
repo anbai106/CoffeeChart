@@ -8,4 +8,4 @@
 module load python/anaconda/3
 module load R/4.3
 
-Rscript /cbica/home/wenju/Project/LifeStyleChart/1_prepare_data/SelectVarLocalUKBBMRFullUKBBSample.R
+Rscript /cbica/home/wenju/Project/LifestyleChart/1_prepare_data/SelectVarLocalUKBBMRFullUKBBSample.R

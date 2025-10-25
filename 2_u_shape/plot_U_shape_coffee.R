@@ -4,7 +4,7 @@ library(patchwork)
 library(tidyverse)
 
 # Define folder
-plot_dir <- "/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/GAM/BAG"
+plot_dir <- "/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/GAM/BAG"
 
 # 1. Get all *_plot.rds files
 plot_files <- list.files(

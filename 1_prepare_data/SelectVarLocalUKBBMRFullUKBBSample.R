@@ -1,5 +1,5 @@
 library(dplyr)
-sel.orig <- read.csv("/cbica/home/wenju/Reproducibile_paper/LifeStyleChart/data/lifestyle_var.tsv", stringsAsFactors = FALSE, sep = "\t")
+sel.orig <- read.csv("/cbica/home/wenju/Reproducibile_paper/LifestyleChart/data/lifestyle_var.tsv", stringsAsFactors = FALSE, sep = "\t")
 
 sel <- sel.orig %>%
   dplyr::select(Var)
@@ -19,4 +19,4 @@ for (i in 1:length(sel_c)) {
 ukbb_all <- ukbb_all.orig %>%
   dplyr::select(sel_Var$vars)
 
-write.csv(ukbb_all, "/cbica/home/wenju/Reproducibile_paper/LifeStyleChart/data/lifestyle.csv", row.names = FALSE)
+write.csv(ukbb_all, "/cbica/home/wenju/Reproducibile_paper/LifestyleChart/data/lifestyle.csv", row.names = FALSE)

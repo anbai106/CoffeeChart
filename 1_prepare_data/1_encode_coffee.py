@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_csv("/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/diet_data.csv", sep=',')
+df = pd.read_csv("/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/diet_data.csv", sep=',')
 df = df[['eid', "cooked_vegetable_intake_f1289_0_0",
          "salad_raw_vegetable_intake_f1299_0_0", "fresh_fruit_intake_f1309_0_0", "dried_fruit_intake_f1319_0_0",
          "oily_fish_intake_f1329_0_0", "nonoily_fish_intake_f1339_0_0", "processed_meat_intake_f1349_0_0",
@@ -84,6 +84,6 @@ for col, title in zip(dietary_traits, titles):
 print(df.count())
 
 df.rename({'eid': 'participant_id'}, axis=1, inplace=True)
-df.to_csv('/Users/hao/cubic-home/Reproducibile_paper/LifeStyleChart/data/dietary_data_encoded.tsv', index=False, sep='\t')
+df.to_csv('/Users/hao/cubic-home/Reproducibile_paper/LifestyleChart/data/dietary_data_encoded.tsv', index=False, sep='\t')
 
 print("Stop...")
